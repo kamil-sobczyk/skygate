@@ -6,7 +6,9 @@
     "build": "cross-env NODE_ENV=production webpack --colors --progress",
     "dev": "cross-env NODE_ENV=dev webpack-dev-server",
     "dev-async": "cross-env NODE_ENV=async-ts webpack-dev-server",
-    "analyzer": "cross-env NODE_ENV=analyzer webpack-dev-server"
+    "analyzer": "cross-env NODE_ENV=analyzer webpack-dev-server",
+    "lint": "eslint src/**",
+    "lint-fix": "eslint src/** --fix"
   },
   "dependencies": {
     "@material/button": "2.0.0",
