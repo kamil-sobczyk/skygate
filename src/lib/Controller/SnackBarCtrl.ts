@@ -4,7 +4,7 @@ enum SnackBarTypes {
   SUCCESS = '#38B77E',
   WARNING = '#ea9e18',
   ERROR = '#ED4967',
-  DEFAULT = '#8D9191'
+  DEFAULT = '#8D9191',
 }
 
 class SnackBarCtr {

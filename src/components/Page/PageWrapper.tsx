@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {observer} from 'mobx-react';
-import {Snackbar} from 'rmwc/Snackbar';
+import {Snackbar} from '@rmwc/snackbar';
 import {ConfirmPopup} from '../UI/ConfirmPopup';
 import {SnackBarCtrl} from '../../lib/Controller/SnackBarCtrl';
 import {ConfirmPopupCtrl} from '../../lib/Controller/ConfirmPopupCtrl';
@@ -14,13 +14,8 @@ export class PageWrapper extends React.Component<{}, {}> {
     return (
       <PageWrapperElement>
         {children}
-        <StyledSnackbar
-          {...SnackBarCtrl.props}
-        />
-        <ConfirmPopup
-          open={ConfirmPopupCtrl.open}
-          {...ConfirmPopupCtrl.modalProps}
-        />
+        <StyledSnackbar {...SnackBarCtrl.props} />
+        <ConfirmPopup open={ConfirmPopupCtrl.open} {...ConfirmPopupCtrl.modalProps} />
       </PageWrapperElement>
     );
   }

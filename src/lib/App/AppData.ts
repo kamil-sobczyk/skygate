@@ -10,5 +10,5 @@ export class AppData {
 
   init = () => {
     // Something to init
-  }
+  };
 }
