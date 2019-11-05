@@ -13,16 +13,12 @@ import {Store} from '../../lib/Store';
 @inject('store')
 @observer
 export class SearchList extends React.Component<any> {
-  @observable data?: Movie[] = this.props.store.apiClient.getData();
-
   render() {
-    const {getData} = this.props.store.apiClient;
-    console.log('ss', this.props.data);
+    const {data} = this.props.store.apiClient;
     return (
       <Container>
-        Movies
-        {this.props.data &&
-          this.props.data.map((movie: Movie) => (
+        {data &&
+          data.map((movie: Movie) => (
             <MovieCard
               title={movie.Title}
               year={movie.Year}
@@ -30,6 +26,7 @@ export class SearchList extends React.Component<any> {
               plot={movie.Title}
               id={movie.imdbID}
               key={movie.Title}
+              img={movie.Poster}
             />
           ))}
       </Container>
@@ -38,10 +35,10 @@ export class SearchList extends React.Component<any> {
 }
 
 const Container = styled.div`
-  min-width: 80%;
+  min-width: 70%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-wrap: wrap;
   align-items: center;
 `;

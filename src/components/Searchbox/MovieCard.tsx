@@ -23,16 +23,15 @@ import {Typography} from '@rmwc/typography'
 @inject('store')
 @observer
 export class MovieCard extends React.Component<any> {
+  private readonly noImg = 'https://pvsmt99345.i.lithium.com/t5/image/serverpage/image-id/10546i3DAC5A5993C8BC8C?v=1.0'
+
   render() {
     const {img, title, plot, year, type, id} = this.props;
+    console.log(img)
     return (
       <Card style={{width: '21rem'}}>
         <CardPrimaryAction>
-          <CardMedia
-            style={{
-              backgroundImage: img,
-            }}
-          />
+            <Poster src={img !== 'N/A' ? img : this.noImg}/>
           <div style={{padding: '0 1rem 1rem 1rem'}}>
             <Typography use='headline6' tag='h2'>
               {title}
@@ -60,3 +59,7 @@ export class MovieCard extends React.Component<any> {
     );
   }
 }
+
+const Poster = styled.img`
+max-width: 100%
+`

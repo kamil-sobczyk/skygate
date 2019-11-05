@@ -14,7 +14,7 @@ export class ApiClient {
   private searchTitle: string = '';
   private searchID: string = '';
   private searchYearOfRelease: number = 0;
-  private data?: Movie[];
+  @observable data?: Movie[];
 
   getSearchTitle = (): string => this.searchTitle;
   @action setSearchTitle = (title: string): string => (this.searchTitle = title);
@@ -33,7 +33,6 @@ export class ApiClient {
       }`,
     }).then(response => this.setData(response.data.Search));
   };
-  getData = (): Movie[] | undefined => this.data;
   @action setData = (data: Movie[]) => {
     console.log(data);
     this.data = data;

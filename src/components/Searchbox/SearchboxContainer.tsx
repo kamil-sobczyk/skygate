@@ -35,12 +35,6 @@ export class SearchboxContainer extends React.Component<any> {
     (_, i) => this.firstMovieReleaseYear + i,
   ).reverse();
 
-  getData = () => {
-    this.props.store.apiClient.fetchData();
-    this.props.update();
-    this.props.update();
-  };
-
   render() {
     const {apiClient} = this.props.store;
     console.log(apiClient);
@@ -61,7 +55,7 @@ export class SearchboxContainer extends React.Component<any> {
           options={this.parseDatesToString(this.getYearsRange)}
           onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchYearOfRelease(e.currentTarget.value)}
         />
-        <Button label='Search' raised onClick={() => this.getData()} />
+        <Button label='Search' raised onClick={() => apiClient.fetchData()} />
       </SearchContainer>
     );
   }

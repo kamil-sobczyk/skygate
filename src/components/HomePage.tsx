@@ -12,18 +12,12 @@ interface HomePageProps {
 @inject('store')
 @observer
 export class HomePage extends React.Component<any> {
-  update = () => {
-    console.log('update');
-    this.forceUpdate();
-  };
   render() {
-    const {getData} = this.props.store.apiClient;
-    console.log('home', getData())
     return (
       <Container>
         <h1>Movie search app</h1>
-        <SearchboxContainer update={this.update} />
-        <SearchList data={getData()}/>
+        <SearchboxContainer />
+        <SearchList />
       </Container>
     );
   }
