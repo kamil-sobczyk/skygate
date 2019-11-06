@@ -4,22 +4,25 @@ import {observer, inject} from 'mobx-react';
 import {Movie} from '../../lib/Interfaces';
 import MovieCard from './MovieCard';
 import {Pagination} from './Pagination';
-import { Store } from '../../lib/Store';
+import {Store} from '../../lib/Store';
 
 interface SearchListProps {
-    store?: Store;
+  store?: Store;
 }
 
 @inject('store')
 @observer
 export class SearchList extends React.Component<SearchListProps> {
   render() {
-    const {searchData, setPrevPage, setNextPage} = this.props.store!.apiClient;
+    const {searchData, setPrevPage, setNextPage, showWishList, moviesFromWishList} = this.props.store!.apiClient;
+    const chosenData = showWishList ? moviesFromWishList : searchData;
+    console.log('showWish',showWishList)
+    console.log('chosen',chosenData)
     return (
       <>
         <Container>
-          {searchData &&
-            searchData.map((movie: Movie) => (
+          {chosenData &&
+            chosenData.map((movie: Movie) => (
               <MovieCard
                 title={movie.Title}
                 year={movie.Year}
@@ -31,7 +34,9 @@ export class SearchList extends React.Component<SearchListProps> {
               />
             ))}
         </Container>
-        {searchData.length > 0 && <Pagination prevPage={setPrevPage} nextPage={setNextPage} />}
+        {chosenData === searchData && chosenData.length > 0 && (
+          <Pagination prevPage={setPrevPage} nextPage={setNextPage} />
+        )}
       </>
     );
   }

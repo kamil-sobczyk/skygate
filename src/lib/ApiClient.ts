@@ -19,6 +19,7 @@ export class ApiClient {
   private currentPage: number = 1;
   @observable moviesFromWishList: Movie[] = [];
   @observable searchData: Movie[] = [];
+  @observable showWishList: boolean = false;
 
   getSearchTitle = (): string => this.searchTitle;
   @action setSearchTitle = (title: string): string => (this.searchTitle = title);
@@ -52,6 +53,7 @@ export class ApiClient {
       this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
     }${this.getMovieType() ? `&type=${this.getMovieType()}` : ``}&page=${this.getCurrentPage}`;
 
+    this.setShowHideWishList(false);
     this.setSearchData([]);
 
     await axios({
@@ -70,20 +72,23 @@ export class ApiClient {
   };
 
   @action fetchWishList = async (): Promise<void> => {
+      console.log('object')
+    this.setShowHideWishList(true);
     let data: Movie[] = [];
     const moviesFromWishListIds: string[] = this.store.cookiesClient.getWishList().map((wish: Wish) => wish.id);
     moviesFromWishListIds.map(async (id: string) => {
       await axios({
         method: 'get',
         url: `${this.apiUrl}i=${id}`,
-      }).then(response => data.push(response.data));
+      }).then(response => {
+        this.moviesFromWishList.push(response.data)});
     });
+    console.log(JSON.stringify(data))
+    // this.setWishListData(data);
   };
 
   @action setSearchData = (data: Movie[]) => {
     this.searchData = data;
   };
-  @action setWishListData = (data: Movie[]) => {
-      this.moviesFromWishList = data;
-  }
+  @action setShowHideWishList = (value: boolean) => (this.showWishList = value);
 }
