@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {Button} from '@rmwc/button';
+import '@material/button/dist/mdc.button.css';
 
 interface PaginationProps {
   prevPage: () => void;
