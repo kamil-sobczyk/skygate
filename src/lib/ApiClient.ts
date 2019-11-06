@@ -1,12 +1,12 @@
 import axios from 'axios';
 import {observable, action} from 'mobx';
 import {Store} from './Store';
-import {Movie, MovieType} from './Interfaces';
+import {Movie, MovieType, Wish} from './Interfaces';
 import {apiKey} from '../../config';
 
 export class ApiClient {
   store: Store;
-  
+
   constructor(store: Store) {
     this.store = store;
   }
@@ -14,9 +14,10 @@ export class ApiClient {
   private readonly apiUrl = `http://www.omdbapi.com/?apikey=${apiKey}&`;
   private searchTitle: string = '';
   private searchID: string = '';
-  private MovieType?: string;
+  private MovieType?: MovieType;
   private searchYearOfRelease: number = 0;
   private currentPage: number = 1;
+  @observable moviesFromWishList: Movie[] = [];
   @observable searchData: Movie[] = [];
 
   getSearchTitle = (): string => this.searchTitle;
@@ -29,29 +30,29 @@ export class ApiClient {
   @action setSearchYearOfRelease = (year: number): number => (this.searchYearOfRelease = year);
 
   getMovieType = () => this.MovieType;
-  @action setMovieType = (type: string): string => (this.MovieType = type);
+  @action setMovieType = (type: MovieType): MovieType => (this.MovieType = type);
 
   getCurrentPage = (): number => this.currentPage;
   @action setNextPage = (): void => {
     if (this.currentPage <= 99) {
       this.currentPage++;
-      this.fetchData();
+      this.fetchSearchData();
     }
   };
   @action setPrevPage = (): void => {
     if (this.currentPage >= 2) {
       this.currentPage--;
-      this.fetchData();
+      this.fetchSearchData();
     }
   };
 
-  @action fetchData = async (): Promise<any> => {
-    let data: any = [];
+  @action fetchSearchData = async (): Promise<void> => {
+    let data: [] = [];
     const fullUrl = `${this.apiUrl}s=${this.getSearchTitle()}${
       this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
     }${this.getMovieType() ? `&type=${this.getMovieType()}` : ``}&page=${this.getCurrentPage}`;
 
-    this.setData([]);
+    this.setSearchData([]);
 
     await axios({
       method: 'get',
@@ -60,15 +61,29 @@ export class ApiClient {
       data = response.data.Search;
     });
 
-    data.forEach(async (movie: any, index: number) => {
+    data.forEach(async (movie: Movie) => {
       await axios({
         method: 'get',
         url: `${this.apiUrl}i=${movie.imdbID}&plot=short`,
       }).then(response => this.searchData.push(response.data));
     });
   };
-  @action setData = (data: Movie[]) => {
-    console.log(data);
+
+  @action fetchWishList = async (): Promise<void> => {
+    let data: Movie[] = [];
+    const moviesFromWishListIds: string[] = this.store.cookiesClient.getWishList().map((wish: Wish) => wish.id);
+    moviesFromWishListIds.map(async (id: string) => {
+      await axios({
+        method: 'get',
+        url: `${this.apiUrl}i=${id}`,
+      }).then(response => data.push(response.data));
+    });
+  };
+
+  @action setSearchData = (data: Movie[]) => {
     this.searchData = data;
   };
+  @action setWishListData = (data: Movie[]) => {
+      this.moviesFromWishList = data;
+  }
 }

@@ -54,15 +54,20 @@ export class SearchboxContainer extends React.Component<HomePageProps> {
           label='Type'
           enhanced
           options={this.MovieTypes as string[]}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setMovieType(e.currentTarget.value)}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            apiClient.setMovieType(e.currentTarget.value as MovieType)
+          }
         />
         <Select
           label='Year'
           enhanced
           options={this.parseDatesToString(this.getYearsRange)}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchYearOfRelease(parseInt(e.currentTarget.value))}
+          onChange={(e: React.FormEvent<HTMLInputElement>) =>
+            apiClient.setSearchYearOfRelease(parseInt(e.currentTarget.value))
+          }
         />
-        <Button label='Search' raised onClick={() => apiClient.fetchData()} />
+        <Button label='Search' raised onClick={() => apiClient.fetchSearchData()} />
+        <Button label='test' raised onClick={() => apiClient.fetchWishList()} />
       </SearchContainer>
     );
   }
