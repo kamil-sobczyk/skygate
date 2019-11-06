@@ -46,25 +46,17 @@ export class ApiClient {
 
   @action fetchData = async (): Promise<any> => {
     let data: any = [];
-    this.setData([]);
-
-    // const fullUrl = `${this.apiUrl}s=${this.getSearchTitle()}${
-    //   this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
-    // }${this.searchType && `&type=${this.searchType}`}`;
-
     const fullUrl = `${this.apiUrl}s=${this.getSearchTitle()}${
       this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
     }${this.getSearchType() ? `&type=${this.getSearchType()}` : ``}&page=${this.getCurrentPage}`;
 
-    console.log(fullUrl);
+    this.setData([]);
 
     await axios({
       method: 'get',
       url: fullUrl,
     }).then(response => {
-      console.log(response.data);
       data = response.data.Search;
-      console.log(response.data.Search);
     });
 
     data.forEach(async (movie: any, index: number) => {

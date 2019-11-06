@@ -38,7 +38,6 @@ export class SearchboxContainer extends React.Component<any> {
 
   render() {
     const {apiClient} = this.props.store;
-    console.log(apiClient);
     return (
       <SearchContainer>
         <TextField

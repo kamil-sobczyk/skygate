@@ -14,7 +14,6 @@ import {Pagination} from './Pagination';
 export class SearchList extends React.Component<any> {
   render() {
     const {searchData, setPrevPage, setNextPage} = this.props.store.apiClient;
-    console.log(searchData);
     return (
       <>
         <Container>
