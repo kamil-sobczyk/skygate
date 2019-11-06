@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {observer, inject} from 'mobx-react';
+import {Store} from '../lib/Store';
 import {TextField} from '@rmwc/textfield';
 import '@material/textfield/dist/mdc.textfield.css';
 import '@material/floating-label/dist/mdc.floating-label.css';
@@ -16,17 +17,18 @@ import '@material/menu/dist/mdc.menu.css';
 import '@material/menu-surface/dist/mdc.menu-surface.css';
 import {Button} from '@rmwc/button';
 import '@material/button/dist/mdc.button.css';
+import {MovieType} from '../lib/Interfaces';
 
-// interface HomePageProps {
-//   store?: Store;
-// }
+interface HomePageProps {
+  store?: Store;
+}
 
 @inject('store')
 @observer
-export class SearchboxContainer extends React.Component<any> {
+export class SearchboxContainer extends React.Component<HomePageProps> {
   private readonly firstMovieReleaseYear: number = 1886;
   private readonly currentYear: number = new Date().getFullYear();
-  private readonly movieTypes: string[] = ['movie', 'series', 'episode'];
+  private readonly MovieTypes: MovieType[] = ['movie', 'series', 'episode'];
 
   private readonly parseDatesToString = (array: number[]): string[] =>
     array.map((number: number): string => String(number));
@@ -37,7 +39,7 @@ export class SearchboxContainer extends React.Component<any> {
   ).reverse();
 
   render() {
-    const {apiClient} = this.props.store;
+    const {apiClient} = this.props.store!;
     return (
       <SearchContainer>
         <TextField
@@ -51,14 +53,14 @@ export class SearchboxContainer extends React.Component<any> {
         <Select
           label='Type'
           enhanced
-          options={this.movieTypes}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchType(e.currentTarget.value)}
+          options={this.MovieTypes as string[]}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setMovieType(e.currentTarget.value)}
         />
         <Select
           label='Year'
           enhanced
           options={this.parseDatesToString(this.getYearsRange)}
-          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchYearOfRelease(e.currentTarget.value)}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchYearOfRelease(parseInt(e.currentTarget.value))}
         />
         <Button label='Search' raised onClick={() => apiClient.fetchData()} />
       </SearchContainer>

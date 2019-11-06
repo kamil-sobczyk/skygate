@@ -26,4 +26,4 @@ export interface Wish {
   id: string;
 }
 
-export type SearchType = 'movie' | 'series' | 'episode' | undefined;
+export type MovieType = 'movie' | 'series' | 'episode' | undefined;

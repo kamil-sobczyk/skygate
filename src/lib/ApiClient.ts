@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {observable, action} from 'mobx';
 import {Store} from './Store';
-import {Movie, SearchType} from './Interfaces';
+import {Movie, MovieType} from './Interfaces';
 import {apiKey} from '../../config';
 
 export class ApiClient {
@@ -11,11 +11,10 @@ export class ApiClient {
     this.store = store;
   }
 
-//   private readonly apiKey = '57582787';
   private readonly apiUrl = `http://www.omdbapi.com/?apikey=${apiKey}&`;
   private searchTitle: string = '';
   private searchID: string = '';
-  private searchType: SearchType;
+  private MovieType?: string;
   private searchYearOfRelease: number = 0;
   private currentPage: number = 1;
   @observable searchData: Movie[] = [];
@@ -29,8 +28,8 @@ export class ApiClient {
   getSearchYearOfRelease = (): number => this.searchYearOfRelease;
   @action setSearchYearOfRelease = (year: number): number => (this.searchYearOfRelease = year);
 
-  getSearchType = () => this.searchType;
-  @action setSearchType = (type: SearchType): SearchType => (this.searchType = type);
+  getMovieType = () => this.MovieType;
+  @action setMovieType = (type: string): string => (this.MovieType = type);
 
   getCurrentPage = (): number => this.currentPage;
   @action setNextPage = (): void => {
@@ -50,7 +49,7 @@ export class ApiClient {
     let data: any = [];
     const fullUrl = `${this.apiUrl}s=${this.getSearchTitle()}${
       this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
-    }${this.getSearchType() ? `&type=${this.getSearchType()}` : ``}&page=${this.getCurrentPage}`;
+    }${this.getMovieType() ? `&type=${this.getMovieType()}` : ``}&page=${this.getCurrentPage}`;
 
     this.setData([]);
 

@@ -4,16 +4,17 @@ import {observer, inject} from 'mobx-react';
 import {Movie} from '../../lib/Interfaces';
 import MovieCard from './MovieCard';
 import {Pagination} from './Pagination';
+import { Store } from '../../lib/Store';
 
-// interface HomePageProps {
-//   store?: Store;
-// }
+interface SearchListProps {
+    store?: Store;
+}
 
 @inject('store')
 @observer
-export class SearchList extends React.Component<any> {
+export class SearchList extends React.Component<SearchListProps> {
   render() {
-    const {searchData, setPrevPage, setNextPage} = this.props.store.apiClient;
+    const {searchData, setPrevPage, setNextPage} = this.props.store!.apiClient;
     return (
       <>
         <Container>
