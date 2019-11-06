@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {observable, action} from 'mobx';
 import {Store} from './Store';
-import {Movie} from './Interfaces';
+import {Movie, SearchType} from './Interfaces';
 
 export class ApiClient {
   store: Store;
@@ -13,8 +13,10 @@ export class ApiClient {
   private readonly apiUrl = `http://www.omdbapi.com/?apikey=${this.apiKey}&`;
   private searchTitle: string = '';
   private searchID: string = '';
+  private searchType: SearchType;
   private searchYearOfRelease: number = 0;
-  @observable data?: Movie[];
+  private currentPage: number = 1;
+  @observable searchData: Movie[] = [];
 
   getSearchTitle = (): string => this.searchTitle;
   @action setSearchTitle = (title: string): string => (this.searchTitle = title);
@@ -25,16 +27,55 @@ export class ApiClient {
   getSearchYearOfRelease = (): number => this.searchYearOfRelease;
   @action setSearchYearOfRelease = (year: number): number => (this.searchYearOfRelease = year);
 
+  getSearchType = () => this.searchType;
+  @action setSearchType = (type: SearchType): SearchType => (this.searchType = type);
+
+  getCurrentPage = (): number => this.currentPage;
+  @action setNextPage = (): void => {
+    if (this.currentPage <= 99) {
+      this.currentPage++;
+      this.fetchData();
+    }
+  };
+  @action setPrevPage = (): void => {
+    if (this.currentPage >= 2) {
+      this.currentPage--;
+      this.fetchData();
+    }
+  };
+
   @action fetchData = async (): Promise<any> => {
+    let data: any = [];
+    this.setData([]);
+
+    // const fullUrl = `${this.apiUrl}s=${this.getSearchTitle()}${
+    //   this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
+    // }${this.searchType && `&type=${this.searchType}`}`;
+
+    const fullUrl = `${this.apiUrl}s=${this.getSearchTitle()}${
+      this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
+    }${this.getSearchType() ? `&type=${this.getSearchType()}` : ``}&page=${this.getCurrentPage}`;
+
+    console.log(fullUrl);
+
     await axios({
       method: 'get',
-      url: `${this.apiUrl}s=${this.getSearchTitle()}${
-        this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
-      }`,
-    }).then(response => this.setData(response.data.Search));
+      url: fullUrl,
+    }).then(response => {
+      console.log(response.data);
+      data = response.data.Search;
+      console.log(response.data.Search);
+    });
+
+    data.forEach(async (movie: any, index: number) => {
+      await axios({
+        method: 'get',
+        url: `${this.apiUrl}i=${movie.imdbID}&plot=short`,
+      }).then(response => this.searchData.push(response.data));
+    });
   };
   @action setData = (data: Movie[]) => {
     console.log(data);
-    this.data = data;
+    this.searchData = data;
   };
 }

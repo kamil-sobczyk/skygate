@@ -26,6 +26,7 @@ import '@material/button/dist/mdc.button.css';
 export class SearchboxContainer extends React.Component<any> {
   private readonly firstMovieReleaseYear: number = 1886;
   private readonly currentYear: number = new Date().getFullYear();
+  private readonly movieTypes: string[] = ['movie', 'series', 'episode'];
 
   private readonly parseDatesToString = (array: number[]): string[] =>
     array.map((number: number): string => String(number));
@@ -50,6 +51,12 @@ export class SearchboxContainer extends React.Component<any> {
           onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchID(e.currentTarget.value)}
         />
         <Select
+          label='Type'
+          enhanced
+          options={this.movieTypes}
+          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchType(e.currentTarget.value)}
+        />
+        <Select
           label='Year'
           enhanced
           options={this.parseDatesToString(this.getYearsRange)}
@@ -63,13 +70,12 @@ export class SearchboxContainer extends React.Component<any> {
 
 const SearchContainer = styled.div`
   min-height: 75px;
-  min-width: 60%;
+  min-width: 80%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   @media (min-width: 1200px) {
-    border: 1px solid lightgray;
     box-shadow: 10px 10px 31px -4px rgba(184, 184, 184, 1);
     border-radius: 25px;
   }

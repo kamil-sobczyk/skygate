@@ -5,6 +5,7 @@ import {Movie} from '../../lib/Interfaces';
 import {MovieCard} from './MovieCard';
 import {observable} from 'mobx';
 import {Store} from '../../lib/Store';
+import {Pagination} from './Pagination';
 
 // interface HomePageProps {
 //   store?: Store;
@@ -14,22 +15,26 @@ import {Store} from '../../lib/Store';
 @observer
 export class SearchList extends React.Component<any> {
   render() {
-    const {data} = this.props.store.apiClient;
+    const {searchData, setPrevPage, setNextPage} = this.props.store.apiClient;
+    console.log(searchData);
     return (
-      <Container>
-        {data &&
-          data.map((movie: Movie) => (
-            <MovieCard
-              title={movie.Title}
-              year={movie.Year}
-              type={movie.Type}
-              plot={movie.Title}
-              id={movie.imdbID}
-              key={movie.Title}
-              img={movie.Poster}
-            />
-          ))}
-      </Container>
+      <>
+        <Container>
+          {searchData &&
+            searchData.map((movie: Movie) => (
+              <MovieCard
+                title={movie.Title}
+                year={movie.Year}
+                type={movie.Type}
+                plot={movie.Plot}
+                id={movie.imdbID}
+                key={movie.imdbID}
+                img={movie.Poster}
+              />
+            ))}
+        </Container>
+        {searchData.length > 0 && <Pagination prevPage={setPrevPage} nextPage={setNextPage} />}
+      </>
     );
   }
 }
