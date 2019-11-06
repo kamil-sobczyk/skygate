@@ -2,15 +2,17 @@ import axios from 'axios';
 import {observable, action} from 'mobx';
 import {Store} from './Store';
 import {Movie, SearchType} from './Interfaces';
+import {apiKey} from '../../config';
 
 export class ApiClient {
   store: Store;
+  
   constructor(store: Store) {
     this.store = store;
   }
 
-  private readonly apiKey = '57582787';
-  private readonly apiUrl = `http://www.omdbapi.com/?apikey=${this.apiKey}&`;
+//   private readonly apiKey = '57582787';
+  private readonly apiUrl = `http://www.omdbapi.com/?apikey=${apiKey}&`;
   private searchTitle: string = '';
   private searchID: string = '';
   private searchType: SearchType;

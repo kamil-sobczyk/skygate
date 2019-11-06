@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import {observer, inject} from 'mobx-react';
 import {Movie} from '../../lib/Interfaces';
-import {MovieCard} from './MovieCard';
+import MovieCard from './MovieCard';
 import {Pagination} from './Pagination';
 
 // interface HomePageProps {

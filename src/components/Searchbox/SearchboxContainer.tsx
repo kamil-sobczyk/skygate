@@ -42,7 +42,6 @@ export class SearchboxContainer extends React.Component<any> {
       <SearchContainer>
         <TextField
           label='Title'
-          required
           onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchTitle(e.currentTarget.value)}
         />
         <TextField
