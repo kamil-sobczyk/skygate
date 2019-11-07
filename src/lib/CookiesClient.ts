@@ -11,7 +11,9 @@ export class CookiesClient {
   private wishList: Wish[] = [];
 
   getWishList = (): Wish[] => this.wishList;
+  
   @action setWishList = (wishList: Wish[]): Wish[] => (this.wishList = wishList);
+
   @action addRemoveWish = (wish: Wish): void => {
     if (!JSON.stringify(this.wishList).includes(JSON.stringify(wish))) {
       this.wishList.push(wish);

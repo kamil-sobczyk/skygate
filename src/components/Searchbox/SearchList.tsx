@@ -15,7 +15,7 @@ interface SearchListProps {
 export class SearchList extends React.Component<SearchListProps> {
   render() {
     const {searchData, setPrevPage, setNextPage, showWishList, moviesFromWishList} = this.props.store!.apiClient;
-    const chosenData = showWishList ? moviesFromWishList : searchData;
+    let chosenData = showWishList ? moviesFromWishList : searchData;
 
     return (
       <>

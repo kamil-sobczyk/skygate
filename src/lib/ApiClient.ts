@@ -13,7 +13,6 @@ export class ApiClient {
 
   private readonly apiUrl = `http://www.omdbapi.com/?apikey=${apiKey}&`;
   private searchTitle: string = '';
-  private searchID: string = '';
   private MovieType?: MovieType;
   private searchYearOfRelease: number = 0;
   private currentPage: number = 1;
@@ -23,9 +22,6 @@ export class ApiClient {
 
   getSearchTitle = (): string => this.searchTitle;
   @action setSearchTitle = (title: string): string => (this.searchTitle = title);
-
-  getSearchID = (): string => this.searchID;
-  @action setSearchID = (id: string): string => (this.searchID = id);
 
   getSearchYearOfRelease = (): number => this.searchYearOfRelease;
   @action setSearchYearOfRelease = (year: number): number => (this.searchYearOfRelease = year);
@@ -69,27 +65,28 @@ export class ApiClient {
         url: `${this.apiUrl}i=${movie.imdbID}&plot=short`,
       }).then(response => this.searchData.push(response.data));
     });
+
+    this.setSearchData(this.removeDuplicates(this.searchData));
   };
 
   @action fetchWishList = async (): Promise<void> => {
-      console.log('object')
-    this.setShowHideWishList(true);
-    let data: Movie[] = [];
     const moviesFromWishListIds: string[] = this.store.cookiesClient.getWishList().map((wish: Wish) => wish.id);
+
+    this.setShowHideWishList(true);
 
     moviesFromWishListIds.map(async (id: string) => {
       await axios({
         method: 'get',
         url: `${this.apiUrl}i=${id}`,
       }).then(response => {
-        this.moviesFromWishList.push(response.data)});
+        this.moviesFromWishList.push(response.data);
+      });
     });
-    console.log(JSON.stringify(data))
-    // this.setWishListData(data);
   };
 
   @action setSearchData = (data: Movie[]) => {
-    this.searchData = data;
+    this.searchData = Array.from(new Set(data));
   };
   @action setShowHideWishList = (value: boolean) => (this.showWishList = value);
+  @action removeDuplicates = (movies: Movie[]) => Array.from(new Set(movies));
 }

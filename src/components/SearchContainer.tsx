@@ -39,38 +39,36 @@ export class SearchboxContainer extends React.Component<HomePageProps> {
   ).reverse();
 
   render() {
-    const {apiClient} = this.props.store!;
+    const {
+      setSearchTitle,
+      setMovieType,
+      setSearchYearOfRelease,
+      fetchWishList,
+      fetchSearchData,
+    } = this.props.store!.apiClient;
     return (
       <>
         <SearchContainer>
           <TextField
             label='Title'
-            onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchTitle(e.currentTarget.value)}
-          />
-          <TextField
-            label='IMDB ID'
-            onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchID(e.currentTarget.value)}
+            onChange={(e: React.FormEvent<HTMLInputElement>) => setSearchTitle(e.currentTarget.value)}
           />
           <Select
             label='Type'
             enhanced
             options={this.MovieTypes as string[]}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              apiClient.setMovieType(e.currentTarget.value as MovieType)
-            }
+            onChange={(e: React.FormEvent<HTMLInputElement>) => setMovieType(e.currentTarget.value as MovieType)}
           />
           <Select
             label='Year'
             enhanced
             options={this.parseDatesToString(this.getYearsRange)}
-            onChange={(e: React.FormEvent<HTMLInputElement>) =>
-              apiClient.setSearchYearOfRelease(parseInt(e.currentTarget.value))
-            }
+            onChange={(e: React.FormEvent<HTMLInputElement>) => setSearchYearOfRelease(parseInt(e.currentTarget.value))}
           />
         </SearchContainer>
         <ButtonsContainer>
-          <Button label='Show wishlist' raised onClick={() => apiClient.fetchWishList()} />
-          <Button label='Search' raised onClick={() => apiClient.fetchSearchData()} />
+          <Button label='Show wishlist' raised onClick={() => fetchWishList()} />
+          <Button label='Search' raised onClick={() => fetchSearchData()} />
         </ButtonsContainer>
       </>
     );
@@ -78,7 +76,7 @@ export class SearchboxContainer extends React.Component<HomePageProps> {
 }
 
 const ButtonsContainer = styled.div`
-width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -101,20 +99,17 @@ const SearchContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 10px 10px 31px -4px rgba(184, 184, 184, 1);
   .mdc-text-field,
   .mdc-select {
     width: 100%;
   }
   @media (min-width: 768px) {
-    .mdc-button {
-      border-radius: 20px;
-      width: 300px;
-    }
     flex-direction: row;
+    justify-content: flex-end;
+    .mdc-text-field,
+  .mdc-select {
+    max-width: 140px;
+  }
   }
 
-  /* @media (min-width: 1200px) {
-    box-shadow: 10px 10px 31px -4px rgba(184, 184, 184, 1);
-  } */
 `;
