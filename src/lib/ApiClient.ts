@@ -15,7 +15,6 @@ export class ApiClient {
   private searchTitle: string = '';
   private MovieType?: MovieType;
   private searchYearOfRelease: number = 0;
-  private currentPage: number = 1;
   @observable moviesFromWishList: Movie[] = [];
   @observable searchData: Movie[] = [];
   @observable showWishList: boolean = false;
@@ -29,25 +28,11 @@ export class ApiClient {
   getMovieType = () => this.MovieType;
   @action setMovieType = (type: MovieType): MovieType => (this.MovieType = type);
 
-  getCurrentPage = (): number => this.currentPage;
-  @action setNextPage = (): void => {
-    if (this.currentPage <= 99) {
-      this.currentPage++;
-      this.fetchSearchData();
-    }
-  };
-  @action setPrevPage = (): void => {
-    if (this.currentPage >= 2) {
-      this.currentPage--;
-      this.fetchSearchData();
-    }
-  };
-
   @action fetchSearchData = async (): Promise<void> => {
     let data: [] = [];
     const fullUrl = `${this.apiUrl}s=${this.getSearchTitle()}${
       this.getSearchYearOfRelease() !== 0 ? `&y=${this.getSearchYearOfRelease()}` : ``
-    }${this.getMovieType() ? `&type=${this.getMovieType()}` : ``}&page=${this.getCurrentPage}`;
+    }${this.getMovieType() ? `&type=${this.getMovieType()}` : ``}`;
 
     this.setShowHideWishList(false);
     this.setSearchData([]);

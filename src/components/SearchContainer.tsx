@@ -30,8 +30,7 @@ export class SearchboxContainer extends React.Component<HomePageProps> {
   private readonly currentYear: number = new Date().getFullYear();
   private readonly MovieTypes: MovieType[] = ['movie', 'series', 'episode'];
 
-  private readonly parseDatesToString = (array: number[]): string[] =>
-    array.map((number: number): string => String(number));
+  private parseDatesToString = (array: number[]): string[] => array.map((number: number): string => String(number));
 
   private readonly getYearsRange: number[] = Array.from(
     {length: this.currentYear + 1 - this.firstMovieReleaseYear},
@@ -107,9 +106,8 @@ const SearchContainer = styled.div`
     flex-direction: row;
     justify-content: flex-end;
     .mdc-text-field,
-  .mdc-select {
-    max-width: 140px;
+    .mdc-select {
+      max-width: 140px;
+    }
   }
-  }
-
 `;

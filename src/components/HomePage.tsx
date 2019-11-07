@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {SearchboxContainer} from './SearchContainer';
 import {SearchList} from './Searchbox/SearchList';
 
-export const HomePage = () => (
+export const HomePage = (): JSX.Element => (
   <Container>
     <h1>Movie search app</h1>
     <SearchboxContainer />

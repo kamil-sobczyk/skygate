@@ -25,14 +25,6 @@ module.exports = {
         'lines-between-class-members': ['error', 'always', { 'exceptAfterSingleLine': true }],
         'no-param-reassign': 'off',
         'class-methods-use-this': 'off',
-      //   'no-extra-semi': 'error',
-      //   'react/no-array-index-key': 'warn',
-      //   'newline-before-return': 'error',
-      //   'no-unused-vars': 'warn',
-      //   quotes: 'error',
-      //   'linebreak-style': 'off',
-      //   'no-restricted-globals': 'off',
-      //   'object-curly-spacing': ['error', 'never'],
       }
     }
   ]

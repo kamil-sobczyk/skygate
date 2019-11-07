@@ -14,7 +14,7 @@ interface SearchListProps {
 @observer
 export class SearchList extends React.Component<SearchListProps> {
   render() {
-    const {searchData, setPrevPage, setNextPage, showWishList, moviesFromWishList} = this.props.store!.apiClient;
+    const {searchData, showWishList, moviesFromWishList} = this.props.store!.apiClient;
     let chosenData = showWishList ? moviesFromWishList : searchData;
 
     return (
@@ -35,7 +35,6 @@ export class SearchList extends React.Component<SearchListProps> {
               />
             ))}
         </Container>
-        {!showWishList && chosenData.length > 0 && <Pagination prevPage={setPrevPage} nextPage={setNextPage} />}
       </>
     );
   }

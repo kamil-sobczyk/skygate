@@ -1,15 +1,15 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import {observable} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import {Card, CardPrimaryAction, CardActions, CardActionIcons, CardActionIcon} from '@rmwc/card';
 import '@material/card/dist/mdc.card.css';
 import '@material/button/dist/mdc.button.css';
 import '@material/icon-button/dist/mdc.icon-button.css';
 import {Typography} from '@rmwc/typography';
-import { withCookies, Cookies} from 'react-cookie';
+import {withCookies, Cookies} from 'react-cookie';
 import {Wish} from '../../lib/Interfaces';
 import {Store} from '../../lib/Store';
-import {observable} from 'mobx';
 
 interface MovieCardProps {
   cookies: Cookies;
@@ -33,7 +33,7 @@ class MovieCard extends React.Component<MovieCardProps> {
   ).includes(JSON.stringify(this.movie));
   state = {icon: this.isMovieOnWishList ? 'favorite' : 'favorite_border'};
 
-  addRemoveWish = () => {
+  private addRemoveWish = () => {
     const {cookies} = this.props;
     const {addRemoveWish, getWishList} = this.props.store!.cookiesClient;
     const {icon} = this.state;
@@ -45,8 +45,6 @@ class MovieCard extends React.Component<MovieCardProps> {
 
   render() {
     const {img, title, plot, year, type, id} = this.props;
-
-    console.log('is on list? :', this.isMovieOnWishList);
 
     return (
       <Card
@@ -65,7 +63,7 @@ class MovieCard extends React.Component<MovieCardProps> {
             <Typography use='headline6' tag='h2'>
               {title}
             </Typography>
-            <Typography use='subtitle2' tag='h3' theme='textSecondaryOnBackground' style={{marginTop: '-1rem'}}>
+            <Typography use='subtitle2' tag='h3' theme='textSecondaryOnBackground'>
               Year of release: {year}
               <br />
               IMDB ID: {id}
@@ -79,10 +77,7 @@ class MovieCard extends React.Component<MovieCardProps> {
         </CardPrimaryAction>
         <CardActions>
           <CardActionIcons>
-            <CardActionIcon
-              icon={this.state.icon}
-              onClick={this.addRemoveWish}
-            />
+            <CardActionIcon icon={this.state.icon} onClick={this.addRemoveWish} />
           </CardActionIcons>
         </CardActions>
       </Card>

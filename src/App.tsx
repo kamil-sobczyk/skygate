@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {observer, Provider, inject} from 'mobx-react';
+import {observer, Provider} from 'mobx-react';
+import {withCookies, Cookies} from 'react-cookie';
 import {Store} from './lib/Store';
 import {HomePage} from './components/HomePage';
-import {withCookies, Cookies} from 'react-cookie';
 
 interface AppProps {
   cookies: Cookies;
