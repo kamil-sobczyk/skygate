@@ -63,7 +63,7 @@ export class ApiClient {
       data = response.data.Search;
     });
 
-    data.forEach(async (movie: Movie) => {
+    data.map(async (movie: Movie) => {
       await axios({
         method: 'get',
         url: `${this.apiUrl}i=${movie.imdbID}&plot=short`,
@@ -76,6 +76,7 @@ export class ApiClient {
     this.setShowHideWishList(true);
     let data: Movie[] = [];
     const moviesFromWishListIds: string[] = this.store.cookiesClient.getWishList().map((wish: Wish) => wish.id);
+
     moviesFromWishListIds.map(async (id: string) => {
       await axios({
         method: 'get',

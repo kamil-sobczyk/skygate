@@ -41,47 +41,80 @@ export class SearchboxContainer extends React.Component<HomePageProps> {
   render() {
     const {apiClient} = this.props.store!;
     return (
-      <SearchContainer>
-        <TextField
-          label='Title'
-          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchTitle(e.currentTarget.value)}
-        />
-        <TextField
-          label='IMDB ID'
-          onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchID(e.currentTarget.value)}
-        />
-        <Select
-          label='Type'
-          enhanced
-          options={this.MovieTypes as string[]}
-          onChange={(e: React.FormEvent<HTMLInputElement>) =>
-            apiClient.setMovieType(e.currentTarget.value as MovieType)
-          }
-        />
-        <Select
-          label='Year'
-          enhanced
-          options={this.parseDatesToString(this.getYearsRange)}
-          onChange={(e: React.FormEvent<HTMLInputElement>) =>
-            apiClient.setSearchYearOfRelease(parseInt(e.currentTarget.value))
-          }
-        />
-        <Button label='Search' raised onClick={() => apiClient.fetchSearchData()} />
-        <Button label='test' raised onClick={() => apiClient.fetchWishList()} />
-      </SearchContainer>
+      <>
+        <SearchContainer>
+          <TextField
+            label='Title'
+            onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchTitle(e.currentTarget.value)}
+          />
+          <TextField
+            label='IMDB ID'
+            onChange={(e: React.FormEvent<HTMLInputElement>) => apiClient.setSearchID(e.currentTarget.value)}
+          />
+          <Select
+            label='Type'
+            enhanced
+            options={this.MovieTypes as string[]}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              apiClient.setMovieType(e.currentTarget.value as MovieType)
+            }
+          />
+          <Select
+            label='Year'
+            enhanced
+            options={this.parseDatesToString(this.getYearsRange)}
+            onChange={(e: React.FormEvent<HTMLInputElement>) =>
+              apiClient.setSearchYearOfRelease(parseInt(e.currentTarget.value))
+            }
+          />
+        </SearchContainer>
+        <ButtonsContainer>
+          <Button label='Show wishlist' raised onClick={() => apiClient.fetchWishList()} />
+          <Button label='Search' raised onClick={() => apiClient.fetchSearchData()} />
+        </ButtonsContainer>
+      </>
     );
   }
 }
 
-const SearchContainer = styled.div`
-  min-height: 75px;
-  min-width: 80%;
+const ButtonsContainer = styled.div`
+width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .mdc-button {
+    width: 30%;
+    border-radius: 0;
+  }
+  @media (min-width: 768px) {
+    .mdc-button {
+      width: 300px;
+    }
+  }
+`;
+
+const SearchContainer = styled.div`
+  min-height: 75px;
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  @media (min-width: 1200px) {
-    box-shadow: 10px 10px 31px -4px rgba(184, 184, 184, 1);
-    border-radius: 25px;
+  box-shadow: 10px 10px 31px -4px rgba(184, 184, 184, 1);
+  .mdc-text-field,
+  .mdc-select {
+    width: 100%;
   }
+  @media (min-width: 768px) {
+    .mdc-button {
+      border-radius: 20px;
+      width: 300px;
+    }
+    flex-direction: row;
+  }
+
+  /* @media (min-width: 1200px) {
+    box-shadow: 10px 10px 31px -4px rgba(184, 184, 184, 1);
+  } */
 `;

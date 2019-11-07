@@ -16,10 +16,11 @@ export class SearchList extends React.Component<SearchListProps> {
   render() {
     const {searchData, setPrevPage, setNextPage, showWishList, moviesFromWishList} = this.props.store!.apiClient;
     const chosenData = showWishList ? moviesFromWishList : searchData;
-    console.log('showWish',showWishList)
-    console.log('chosen',chosenData)
+
     return (
       <>
+        <h1>{showWishList ? 'Your wishlist:' : 'Search results'}</h1>
+        {showWishList && chosenData.length < 1 && <h2>No movies on your wishlist</h2>}
         <Container>
           {chosenData &&
             chosenData.map((movie: Movie) => (
@@ -34,9 +35,7 @@ export class SearchList extends React.Component<SearchListProps> {
               />
             ))}
         </Container>
-        {chosenData === searchData && chosenData.length > 0 && (
-          <Pagination prevPage={setPrevPage} nextPage={setNextPage} />
-        )}
+        {!showWishList && chosenData.length > 0 && <Pagination prevPage={setPrevPage} nextPage={setNextPage} />}
       </>
     );
   }
