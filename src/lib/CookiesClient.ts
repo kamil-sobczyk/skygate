@@ -13,7 +13,7 @@ export class CookiesClient {
   getWishList = (): Wish[] => this.wishList;
   @action setWishList = (wishList: Wish[]): Wish[] => (this.wishList = wishList);
   @action addRemoveWish = (wish: Wish): void => {
-    if (!this.wishList.includes(wish)) {
+    if (!JSON.stringify(this.wishList).includes(JSON.stringify(wish))) {
       this.wishList.push(wish);
     } else {
       this.wishList = this.wishList.filter((item: Wish) => wish.id !== item.id);

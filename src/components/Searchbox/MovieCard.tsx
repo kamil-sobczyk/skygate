@@ -52,7 +52,7 @@ class MovieCard extends React.Component<MovieCardProps> {
       <Card
         style={{
           width: '21rem',
-          minHeight: '600px',
+          minHeight: '710px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
@@ -92,6 +92,7 @@ class MovieCard extends React.Component<MovieCardProps> {
 
 const Poster = styled.img`
   max-width: 100%;
+  max-height: 410px;
 `;
 
 const HeaderWrapper = styled.div`
