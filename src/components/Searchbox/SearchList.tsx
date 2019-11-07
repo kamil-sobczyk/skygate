@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {observer, inject} from 'mobx-react';
 import {Movie} from '../../lib/Interfaces';
 import MovieCard from './MovieCard';
-import {Pagination} from './Pagination';
 import {Store} from '../../lib/Store';
 
 interface SearchListProps {
@@ -14,7 +13,7 @@ interface SearchListProps {
 @observer
 export class SearchList extends React.Component<SearchListProps> {
   render() {
-    const {searchData, showWishList, moviesFromWishList} = this.props.store!.apiClient;
+    const {searchData, showWishList, moviesFromWishList} = this.props.store.apiClient;
     let chosenData = showWishList ? moviesFromWishList : searchData;
 
     return (

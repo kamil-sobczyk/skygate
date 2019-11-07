@@ -6,7 +6,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitUseStrict": false,
@@ -14,21 +14,11 @@
     "target": "es5",
     "jsx": "react",
     "experimentalDecorators": true,
-    "typeRoots": [
-      "./typings",
-      "node_modules/@types",
-      "./@types",
-      ".src/@types"
-    ],
+    "typeRoots": ["./typings", "node_modules/@types", "./@types", ".src/@types"],
     "skipLibCheck": true,
     "sourceMap": true,
-    "lib": [
-      "es2015",
-      "dom"
-    ],
+    "lib": ["es2015", "dom"],
     "strict": true
   },
-  "include": [
-    "src/**/*",
-  ]
+  "include": ["src/**/*"]
 }
