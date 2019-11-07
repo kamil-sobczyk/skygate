@@ -37,6 +37,13 @@ export class SearchboxContainer extends React.Component<HomePageProps> {
     (_, i) => this.firstMovieReleaseYear + i,
   ).reverse();
 
+  handleEnterPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      this.props.store!.apiClient.fetchSearchData();
+      e.preventDefault();
+    }
+  };
+
   render() {
     const {
       setSearchTitle,
@@ -51,6 +58,7 @@ export class SearchboxContainer extends React.Component<HomePageProps> {
           <TextField
             label='Title'
             onChange={(e: React.FormEvent<HTMLInputElement>) => setSearchTitle(e.currentTarget.value)}
+            onKeyPress={(e: React.KeyboardEvent) => this.handleEnterPress(e)}
           />
           <Select
             label='Type'

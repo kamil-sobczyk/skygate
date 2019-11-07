@@ -11,9 +11,9 @@ interface SearchListProps {
 
 @inject('store')
 @observer
-export class SearchList extends React.Component<SearchListProps> {
+export class SearchList extends React.Component<SearchListProps, {}> {
   render() {
-    const {searchData, showWishList, moviesFromWishList} = this.props.store.apiClient;
+    const {searchData, showWishList, moviesFromWishList} = this.props.store!.apiClient;
     let chosenData = showWishList ? moviesFromWishList : searchData;
 
     return (
