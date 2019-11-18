@@ -6,4 +6,5 @@ module.exports = {
   tabWidth: 2,
   jsxSingleQuote: true,
   bracketSpacing: false,
+  formatOnSave: true,
 };

@@ -25,6 +25,7 @@ module.exports = {
         'lines-between-class-members': ['error', 'always', { 'exceptAfterSingleLine': true }],
         'no-param-reassign': 'off',
         'class-methods-use-this': 'off',
+        'format-on-save': true,
       }
     }
   ]
