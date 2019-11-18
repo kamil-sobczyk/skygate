@@ -1,29 +1,10 @@
 import * as React from 'react';
 import {observer, Provider} from 'mobx-react';
-import {withCookies, Cookies} from 'react-cookie';
 import {Store} from './lib/Store';
-import {HomePage} from './components/HomePage';
-
-interface AppProps {
-  cookies: Cookies;
-}
 
 @observer
-class App extends React.Component<AppProps> {
+export class App extends React.Component<any> {
   private store = new Store();
-
-  componentWillMount = () => {
-    const {cookies} = this.props;
-    const {setWishList} = this.store.cookiesClient;
-    const isWishListExist = !!cookies.get('wishList');
-
-    if (!isWishListExist) {
-      cookies.set('wishList', [], {path: '/'});
-      setWishList([]);
-    } else {
-      setWishList(cookies.get('wishList'));
-    }
-  };
 
   render() {
     if (!this.store) {
@@ -31,10 +12,9 @@ class App extends React.Component<AppProps> {
     }
     return (
       <Provider store={this.store}>
-        <HomePage />
+        <h1>App</h1>
       </Provider>
     );
   }
 }
 
-export default withCookies(App);
